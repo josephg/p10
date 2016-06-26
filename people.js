@@ -28,7 +28,7 @@ const OCCUPATIONS = [
   "Translator (12 languages)",
   "Physician",
   "Philosopher",
-  "Archeologist",
+  "Archaeologist",
   "Writer",
   "Reporter",
   "Real Estate Agent",
@@ -77,7 +77,7 @@ const OCCUPATIONS = [
 
 const TRAITS = {
   n: [
-    "can't have children",
+    "infertile",
     "served in a war",
     "anarchist",
     "scared of heights",
@@ -92,7 +92,7 @@ const TRAITS = {
     "speaks 3 languages",
     "amateur actor",
     "family has a history of cancer",
-    "makeup artist",
+    "bisexual",
     "Donates for animal welfare",
     "ran for senate",
     "has over $20.000 depts",
@@ -145,7 +145,7 @@ const TRAITS = {
     "has aboriginal ancestors",
     "unfinished degree in neuroscience ",
     "doesn't want children",
-    "can't see blood",
+    "polyamorous",
     "Among the top 10 richest people alive",
   ],
 
@@ -157,8 +157,8 @@ const TRAITS = {
 };
 
 const NAMES = {
-  m: ['Dave', 'Frank', 'George', 'Gregory', 'Harold', 'John', 'Joseph', 'Aaron', 'Kyle', 'Liam', 'Luke', 'Matt', 'Brenton', 'Mark', 'Sam'],
-  f: ['Sandra', 'Sharron', 'Simone', 'Frances', 'Jess', 'Jasmine', 'Claire', 'Kate', 'Jennifer', 'Carol', 'Anika', 'Liz', 'Emma', 'Sophie', 'Olivia']
+  m: ['Joseph', 'Emre', 'Brendan', 'Jim', 'Leigh', 'Aziz', 'Noxolo', 'Brad', 'Charlie', 'Florian', 'Richard', 'Yug', 'Malcolm', 'Carlo', 'Ben', 'Liam', 'Seiji', 'Bayani', 'Cho', 'Haruo', 'Ringo', 'Shinichi', 'Tor', 'Ron', 'Sasha', 'Nikolai', 'Timo', 'Eirik', 'Ragnar', 'Jules', 'Lorenzo', 'Riccardo', 'Matthew', 'Finn', 'Luca', 'Mateo', 'Rami', 'Ashley', 'Joshua', 'John', 'Lars', 'David', 'Jason', 'Alexander', 'Tasi', 'Jayanta', 'Tony', 'Karel', 'Krister', 'Dean', 'Trent', 'Dion', 'Nathan', 'Joshua', 'Gregory', 'James', 'Morgan', 'Rajan', 'Mack', 'Shay', 'Tyshan', 'Katz', 'Kostja', 'Milan', 'Owen', 'Kinoko', 'Faraz', 'Vladimir', 'Renee', 'Itamar'],
+  f: ['Zoe', 'Jennifer', 'Dina', 'Jordan', 'Leigh', 'Bei', 'Kamina', 'Meya', 'Emilia', 'Siobhan', 'Claire', 'Sally', 'Lauren', 'Della', 'Arati', 'Stephanie', 'Haruko', 'Li', 'Cho', 'Nanako', 'Thanh', 'Alyosha', 'Inna', 'Svetlana', 'Sasha', 'Eleonor', 'Hannah', 'Lea', 'Alice', 'Sophia', 'Lucy', 'Maria', 'Rae', 'Jenna', 'Valeria', 'Fabiana', 'Tara', 'Ashley', 'Lois', 'Elissa', 'Leena', 'Tegan', 'Elizabeth', 'Janie', 'Reina', 'Samantha', 'Hedwig', 'Izzy', 'Anna', 'Maret', 'Janet', 'Sonia', 'Maike', 'Riahne', 'Kate', 'Wren', 'Jyllian', 'Rebecca', 'Fiona', 'Marika', 'Nat', 'Naomi', 'Giselle', 'Maize', 'Louise', 'Mahli', 'Chiharu', 'Justine', 'Renee', 'Sonnalee']
 }
 
 const checkUnique = list => {
