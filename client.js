@@ -27,6 +27,12 @@ app.model({
     })
   },
 
+  subscriptions: [
+    send => {
+      window.onkeydown = (e) => send('keydown', {keyCode: e.keyCode});
+    }
+  ],
+
   effects: {
     reset: (action, state, send) => {
       console.warn('Resetting game');
@@ -42,6 +48,22 @@ app.model({
       send('app:location', {location: action.location});
       window.history.pushState({}, null, action.location);
     },
+
+    keydown: (action, state, send) => {
+      //console.log('keydown', action.keyCode);
+      const id = {37: 'prev', 39: 'next', 32: 'spacetarget'}[action.keyCode];
+      if (!id) return;
+
+      const elem = document.getElementById(id);
+      if (!elem) return;
+
+      if (elem.tagName === 'A') elem.click();
+      if (elem.tagName === 'INPUT') {
+        elem.checked = !elem.checked;
+        elem.onchange({target: elem});
+      }
+    },
+
     'app:location': (action, state, send) => {
       console.log('app:location', action);
     }
@@ -129,7 +151,7 @@ const roundDetails = (params, state, send) => {
 
   const banished = !!person.removedInRound;
 
-  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} checked=${banished} />`;
+  const checkbox = choo.view`<input id=spacetarget type="checkbox" onchange=${onchange} checked=${banished} />`;
   //if (person.removedInRound) checkbox.checked = true;
 
   return choo.view`<div class='details'>
@@ -144,9 +166,9 @@ const roundDetails = (params, state, send) => {
       <label>${checkbox} Banish</label>
       <br>
       <div class=nav>
-        <a href=${wrapDeref(peopleList, myIdx-1).id}>${'<'}</a>
+        <a id=prev href=${wrapDeref(peopleList, myIdx-1).id}>${'<'}</a>
         <a href='../overview'>Back</a>
-        <a href=${wrapDeref(peopleList, myIdx+1).id}>${'>'}</a>
+        <a id=next href=${wrapDeref(peopleList, myIdx+1).id}>${'>'}</a>
       </div>
     </div>
   </div>`;
