@@ -20,10 +20,7 @@
     "url": "git+ssh://git@github.com/josephg/p10.git"
   },
   "browserify": {
-    "transform": [
-      "yo-yoify"
-    ]
-  },
+      },
   "author": "Joseph Gentle <me@josephg.com>",
   "license": "UNLICENSED",
   "bugs": {
