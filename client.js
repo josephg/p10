@@ -125,7 +125,7 @@ const roundOverview = (params, state, send) => {
           </li>
         `)}
       </ul>
-      <button style='float: right;' onclick=${next} disabled=${remaining !== targetRemaining,false}>${round < 3 ? 'Next round' : 'Submit your choices'}</button>
+      <button style='float: right;' onclick=${next} disabled=${remaining > targetRemaining}>${round < 3 ? 'Next round' : 'Submit your choices'}</button>
     </div>
   `;
 };
