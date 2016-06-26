@@ -1,7 +1,7 @@
 const choo = require('choo');
 const app = choo();
 
-const peopleMap = require('./people');
+const makePeople = require('./people');
 
 const objMap = (obj, fn) => {
   const result = {};
@@ -23,10 +23,6 @@ const objAsSortedList = (obj, key) => Object.keys(obj)
   .map(k => obj[k])
   .sort((a, b) => a[key] < b[key] ? -1 : 1);
 
-//const people = Object.keys(peopleMap).sort()
-//  .map(name => Object.assign(peopleMap[name], {name}));
-
-//console.log(peopleList);
 
 
 app.model({
@@ -37,7 +33,7 @@ app.model({
 
     setremoved: ({id, value}, {round, people}) => ({
       round,
-      people: objMap(people, (person, _id) => id === _id ?
+      people: people.map(person => person.id === id ?
           Object.assign({}, person, {removedInRound: value ? round : 0}) : person)
     }),
 
@@ -45,11 +41,10 @@ app.model({
 
     start: (action, state) => ({
       round: 1,
-      people: objMap(peopleMap, (person, id) => ({
-        id: id,
+      people: makePeople().map((person, id) => ({
+        id: person.name,
         details: person,
         removedInRound: 0,
-        sortOrder: Math.random()
       }))
     })
   },
@@ -96,15 +91,16 @@ const intro = (params, state, send) => choo.view`
   </div>
 `;
 
+const visible = round => person => !person.removedInRound || person.removedInRound === round;
+//const visiblePeopleList = people => people.filter();
+
 const roundOverview = (params, state, send) => {
   // Ignore the params.round and use the version in state.
   console.log(params);
   console.log(state.people);
 
   var remaining = 0;
-  for (var person in state.people) {
-    if (!person.removedInRound) remaining++;
-  }
+  state.people.forEach(person => {if (!person.removedInRound) remaining++});
 
   const round = state.round;
   const targetRemaining = ({1: 20, 2: 15, 3: 10})[round];
@@ -120,9 +116,7 @@ const roundOverview = (params, state, send) => {
       <h1>Round ${round}</h1>
       <h2>${remaining} people remaining. Banish ${remaining - targetRemaining} to progress</h2>
       <ul>
-        ${objAsSortedList(state.people, 'sortOrder')
-        .filter(person => !person.removedInRound || person.removedInRound === round)
-        .map(person => choo.view`
+        ${state.people.filter(visible(round)).map(person => choo.view`
           <li style=${person.removedInRound ? 'text-decoration: line-through' : ''}>
             <a href=detail/${person.id}>${person.id}</a>
           </li>
@@ -134,20 +128,24 @@ const roundOverview = (params, state, send) => {
 };
 
 const roundDetails = (params, state, send) => {
-  const person = state.people[params.person];
-  if (person.removedInRound && person.removedInRound < state.round) {
+  const person = state.people.filter(p => p.id === params.name)[0];
+  if (!person) console.warn(`Could not find person with name ${params.name}`);
+  if (!person || (person.removedInRound && person.removedInRound < state.round)) {
     send('navigate', {location: '/overview'});
     return choo.view`<div></div>`;
   }
 
-  //console.log(person);
+  console.log(person);
 
   const onchange = (e) => {
     send('setremoved', {id: person.id, value: e.target.checked});
   }
 
-  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} />`;
-  if (person.removedInRound) checkbox.checked = true;
+  const peopleList = state.people.filter(visible(state.round));
+  const myIdx = peopleList.indexOf(person);
+
+  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} checked=${!!person.removedInRound} />`;
+  //if (person.removedInRound) checkbox.checked = true;
 
   return choo.view`<div>
     A person ${person.id}
@@ -157,9 +155,11 @@ const roundDetails = (params, state, send) => {
         .slice(0, state.round)
         .map(text => choo.view`<div>${text}</div>`)}
     </div>
-    <label>${checkbox} Remove</label>
+    <label>${checkbox} Banish</label>
     <br>
-    <a href='../overview'>Back</a>
+    ${myIdx >= 1 ? choo.view`<a href=${peopleList[myIdx-1].id}>Back</a>` : null}
+    <a href='../overview'>Overview</a>
+    ${(myIdx <= peopleList.length - 2) ? choo.view`<a href=${peopleList[myIdx+1].id}>Next</a>` : null}
   </div>`;
 };
 
@@ -183,7 +183,7 @@ window.router = app.router(route => [
   route('/intro', intro),
   route('/round/:roundnum', [
     route('/overview', protect(roundOverview)),
-    route('/detail/:person', protect(roundDetails))
+    route('/detail/:name', protect(roundDetails))
   ]),
   route('/outro', outro)
 //  route('/blah', () => choo.view`<h1>blah</h1>`)
