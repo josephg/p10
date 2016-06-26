@@ -112,9 +112,19 @@ const TRAITS = {
 };
 
 const NAMES = {
-  m: ['Dave', 'Frank', 'George', 'Gregory', 'Harold', 'John', 'Joseph', 'Aaron', 'Kyle', 'John', 'Luke', 'Matt', 'Brenton', 'Mark', 'Sam'],
+  m: ['Dave', 'Frank', 'George', 'Gregory', 'Harold', 'John', 'Joseph', 'Aaron', 'Kyle', 'Liam', 'Luke', 'Matt', 'Brenton', 'Mark', 'Sam'],
   f: ['Sandra', 'Sharron', 'Simone', 'Frances', 'Jess', 'Jasmine', 'Claire', 'Kate', 'Jennifer', 'Carol', 'Anika', 'Liz', 'Emma', 'Sophie', 'Olivia']
 }
+
+const checkUnique = list => {
+  const set = new Set(list);
+  if (set.size !== list.length) throw Error('List has duplicate items');
+}
+
+checkUnique(NAMES.m);
+checkUnique(NAMES.f);
+checkUnique(TRAITS.n);
+checkUnique(OCCUPATIONS);
 
 // Returns a random number in the range [0,n)
 const randInt = (n) => (Math.random() * n)|0;
@@ -137,7 +147,7 @@ const someOfGender = (n, gender) => { // 'm' or 'f'.
   const occupations = nRandom(n, OCCUPATIONS);
   const traits = nRandom(n * 2, TRAITS.n.concat(TRAITS[gender]));
   const names = nRandom(n, NAMES[gender]);
-  console.log(occupations, traits, names);
+  //console.log(occupations, traits, names);
   // Zip.
   return occupations.map((occupation, i) => ({
     stages: [
