@@ -12,11 +12,18 @@ body, html {
 
   /* you see this if you try to scroll out of the module list */
   background-color: rgb(28,24,15);
-  background-image: url(Background_strip.jpg);
+  background-image: url(/Background_strip.jpg);
   background-position: center;
   background-repeat-x: repeat;
 
-  color: white;
+  /* http://caniuse.com/#feat=user-select-none */
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  color: rgb(236,228,217);
   font-family: 'Press Start 2P', cursive;
   line-height: 1.5em;
 
@@ -34,17 +41,66 @@ body, html {
     margin-top: 20px;
 }
 
-label {
-  /* http://caniuse.com/#feat=user-select-none */
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.details .name {
+  font-size: 18px;
+}
+
+.details .stage1:before {
+  content: 'Job: ';
+}
+
+.details .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 30px 0 30px 100px;
+  min-width: 300px;
+}
+
+.details .nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.details .nav a {
+  display: inline-block;
+  font-size: larger;
+}
+
+.portrait {
+  background-color: rgb(83,65,45);
+  width: 715px;
+  height: 615px;
+  transition: 0.3s ease-in-out;
+}
+.portrait.banished {
+  filter: grayscale(60%) brightness(0.8);
+  -webkit-filter: grayscale(60%) brightness(0.8);
+  transition: 0.3s ease-in-out;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.slab {
+  background-color: rgb(83,65,45);
+  padding: 18px;
+  margin-bottom: 20px;
+  display: block;
+  border: 5px solid rgb(135, 89, 38);
 }
 
 a {
-  color: pink;
+  color: #eaadad;
+  text-decoration: initial;
 }
 
 </style>

@@ -51,7 +51,6 @@ app.model({
 
 
 const start = send => () => {
-  console.log('start');
   send('start');
 };
 
@@ -124,22 +123,28 @@ const roundDetails = (params, state, send) => {
   const peopleList = state.people.filter(visible(state.round));
   const myIdx = peopleList.indexOf(person);
 
-  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} checked=${!!person.removedInRound} />`;
+  const banished = !!person.removedInRound;
+
+  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} checked=${banished} />`;
   //if (person.removedInRound) checkbox.checked = true;
 
-  return choo.view`<div>
-    A person ${person.id}
-    <div style="width: 200px; height: 200px; background-color: grey; border: 1px black;">Cool image</div>
-    <div>
-      ${person.details.stages
-        .slice(0, state.round)
-        .map(text => choo.view`<div>${text}</div>`)}
+  return choo.view`<div class='details'>
+    <img class=${banished ? 'portrait banished' : 'portrait'} src="/P10_Female01.gif">
+    <div class=right>
+      <div class='name slab'>${person.details.name}</span>
+      <ul class='stageinfo'>
+        ${person.details.stages
+          .slice(0, state.round)
+          .map((text, i) => choo.view`<li class=${`stage${i+1}`}>${text}</li>`)}
+      </ul>
+      <label>${checkbox} Banish</label>
+      <br>
+      <div class=nav>
+        <a href=${wrapDeref(peopleList, myIdx-1).id}>${'<'}</a>
+        <a href='../overview'>Back</a>
+        <a href=${wrapDeref(peopleList, myIdx+1).id}>${'>'}</a>
+      </div>
     </div>
-    <label>${checkbox} Banish</label>
-    <br>
-    <a href=${wrapDeref(peopleList, myIdx-1).id}>Back</a>
-    <a href='../overview'>Overview</a>
-    <a href=${wrapDeref(peopleList, myIdx+1).id}>Next</a>
   </div>`;
 };
 
