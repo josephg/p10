@@ -57,8 +57,8 @@ const start = send => () => {
 
 const mainMenu = (params, state, send) => choo.view`
   <div>
-    <h1>Hi!</h1>
-    <button onclick=${start(send)}>Start game</button>
+    <h1>the last ten</h1>
+    <button id=startgame onclick=${start(send)}>Start game</button>
   </div>
 `;
 
