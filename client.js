@@ -44,7 +44,7 @@ app.model({
     },
 
     navigate: (action, state, send) => {
-      console.log('navigate', action);
+      //console.log('navigate', action);
       send('app:location', {location: action.location});
       window.history.pushState({}, null, action.location);
     },
@@ -99,8 +99,8 @@ const visible = round => person => !person.removedInRound || person.removedInRou
 
 const roundOverview = (params, state, send) => {
   // Ignore the params.round and use the version in state.
-  console.log(params);
-  console.log(state.people);
+  //console.log(params);
+  //console.log(state.people);
 
   var remaining = 0;
   state.people.forEach(person => {if (!person.removedInRound) remaining++});
@@ -140,7 +140,7 @@ const roundDetails = (params, state, send) => {
     return choo.view`<div></div>`;
   }
 
-  console.log(person);
+  //console.log(person);
 
   const onchange = (e) => {
     send('setremoved', {id: person.id, value: e.target.checked});
