@@ -56,15 +56,19 @@ const start = send => () => {
 
 const mainMenu = (params, state, send) => choo.view`
   <div>
-    <h1>the last ten</h1>
-    <button id=startgame onclick=${start(send)}>Start game</button>
+    <div style='display: flex; justify-content: center; flex-direction: column;'>
+      <h1>the last ten</h1>
+      <button id=startgame onclick=${start(send)}>Start game</button>
+    </div>
   </div>
 `;
 
 const intro = (params, state, send) => choo.view`
   <div>
-    Intro text. Ooooh apocolypses are serious business. Jenny write me!
-    <a href=/round/1/overview>Choose your crew</a>
+    <p>
+      Intro text. Ooooh apocolypses are serious business. Jenny write me!
+      <a href=/round/1/overview>Choose your crew</a>
+    </p>
   </div>
 `;
 
@@ -89,17 +93,17 @@ const roundOverview = (params, state, send) => {
   };
 
   return choo.view`
-    <div>
+    <div class='overview'>
       <h1>Round ${round}</h1>
       <h2>${remaining} people remaining. Banish ${remaining - targetRemaining} to progress</h2>
-      <ul>
+      <ul style='columns: 3;'>
         ${state.people.filter(visible(round)).map(person => choo.view`
-          <li style=${person.removedInRound ? 'text-decoration: line-through' : ''}>
+          <li class=${person.removedInRound ? 'banished' : ''}>
             <a href=detail/${person.id}>${person.id}</a>
           </li>
         `)}
       </ul>
-      <button onclick=${next} disabled=${remaining !== targetRemaining,false}>${round < 3 ? 'Next round' : 'Submit your choices'}</button>
+      <button style='float: right;' onclick=${next} disabled=${remaining !== targetRemaining,false}>${round < 3 ? 'Next round' : 'Submit your choices'}</button>
     </div>
   `;
 };
