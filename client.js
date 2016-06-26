@@ -127,6 +127,8 @@ const roundOverview = (params, state, send) => {
   `;
 };
 
+const wrapDeref = (arr, idx) => arr[(idx + arr.length) % arr.length];
+
 const roundDetails = (params, state, send) => {
   const person = state.people.filter(p => p.id === params.name)[0];
   if (!person) console.warn(`Could not find person with name ${params.name}`);
@@ -157,9 +159,9 @@ const roundDetails = (params, state, send) => {
     </div>
     <label>${checkbox} Banish</label>
     <br>
-    ${myIdx >= 1 ? choo.view`<a href=${peopleList[myIdx-1].id}>Back</a>` : null}
+    <a href=${wrapDeref(peopleList, myIdx-1).id}>Back</a>
     <a href='../overview'>Overview</a>
-    ${(myIdx <= peopleList.length - 2) ? choo.view`<a href=${peopleList[myIdx+1].id}>Next</a>` : null}
+    <a href=${wrapDeref(peopleList, myIdx+1).id}>Next</a>
   </div>`;
 };
 
