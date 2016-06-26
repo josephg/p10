@@ -188,13 +188,8 @@ const nRandom = (n, arr) => {
   return arr.slice(0, n);
 };
 
-const someOfGender = (n, gender) => { // 'm' or 'f'.
-  const occupations = nRandom(n, OCCUPATIONS);
-  const traits = nRandom(n * 2, TRAITS.n.concat(TRAITS[gender]));
-  const names = nRandom(n, NAMES[gender]);
-  //console.log(occupations, traits, names);
-  // Zip.
-  return occupations.map((occupation, i) => ({
+const zip = (gender, occupations, traits, names) => (
+  occupations.map((occupation, i) => ({
     stages: [
       occupation,
       traits[i*2],
@@ -203,9 +198,17 @@ const someOfGender = (n, gender) => { // 'm' or 'f'.
     image: '',
     name: names[i],
     gender: gender
-  }));
-}
+  }))
+);
 
 // Return 30 people - 15 males and 15 females.
-module.exports = () =>
-  nRandom(30, someOfGender(15, 'm').concat(someOfGender(15, 'f')));
+module.exports = (n = 15) => {
+  const occupations = nRandom(n * 2, OCCUPATIONS);
+  const traits = nRandom(n * 4, TRAITS.n);
+  const mnames = nRandom(n, NAMES.m);
+  const fnames = nRandom(n, NAMES.f);
+
+  return nRandom(n * 2,
+      zip('m', occupations.slice(0, n), traits.slice(0, n*2), mnames)
+      .concat(zip('f', occupations.slice(n), traits.slice(n*2), fnames)))
+};
