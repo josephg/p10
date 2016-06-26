@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "budo client.js --no-debug -d public/ -- -t yo-yoify"
+    "start": "budo client.js --no-debug -d public/ --css style.css"
   },
   "repository": {
     "type": "git",
