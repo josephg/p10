@@ -35,6 +35,12 @@ app.model({
   reducers: {
     reset: () => ({round: 0}),
 
+    setremoved: ({id, value}, {round, people}) => ({
+      round,
+      people: objMap(people, (person, _id) => id === _id ?
+          Object.assign({}, person, {removedInRound: value ? round : 0}) : person)
+    }),
+
     round: ({round}, state) => Object.assign(state, {round}),
 
     start: (action, state) => ({
@@ -42,7 +48,7 @@ app.model({
       people: objMap(peopleMap, (person, id) => ({
         id: id,
         details: person,
-        avaliable: true,
+        removedInRound: 0,
         sortOrder: Math.random()
       }))
     })
@@ -106,6 +112,7 @@ const roundOverview = (params, state, send) => {
       <h1>Round ${round}</h1>
       <ul>
         ${objAsSortedList(state.people, 'sortOrder')
+        .filter(person => !person.removedInRound || person.removedInRound === round)
         .map(person => choo.view`
           <li><a href=detail/${person.id}>${person.id}</a></li>
         `)}
@@ -117,14 +124,24 @@ const roundOverview = (params, state, send) => {
 
 const roundDetails = (params, state, send) => {
   const person = state.people[params.person];
-  console.log(person);
+  if (person.removedInRound && person.removedInRound < state.round) {
+    send('navigate', {location: '/overview'});
+    return choo.view`<div></div>`;
+  }
+
+  //console.log(person);
+
+  const onchange = (e) => {
+    send('setremoved', {id: person.id, value: e.target.checked});
+  }
+
+  const checkbox = choo.view`<input type="checkbox" onchange=${onchange} />`;
+  if (person.removedInRound) checkbox.checked = true;
 
   return choo.view`<div>
     A person ${person.id}
     <div style="width: 200px; height: 200px; background-color: grey; border: 1px black;">Cool image</div>
-    <label>
-      <input type="checkbox" id="keep" checked=true /> Keep
-    </label>
+    <label>${checkbox} Remove</label>
     <br>
     <a href='../overview'>Back</a>
   </div>`;
