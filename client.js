@@ -3,28 +3,6 @@ const app = choo();
 
 const makePeople = require('./people');
 
-const objMap = (obj, fn) => {
-  const result = {};
-  for (var k in obj) {
-    result[k] = fn(obj[k], k);
-  }
-  return result;
-};
-
-const objFilter = (obj, fn) => {
-  const result = {};
-  for (var k in obj) {
-    if (fn(obj[k], k)) result[k] = obj[k];
-  }
-  return result;
-};
-
-const objAsSortedList = (obj, key) => Object.keys(obj)
-  .map(k => obj[k])
-  .sort((a, b) => a[key] < b[key] ? -1 : 1);
-
-
-
 app.model({
   state: {round: 0},
 
