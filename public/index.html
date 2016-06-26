@@ -1,7 +1,28 @@
 <!doctype html>
 <!--<link rel="stylesheet" href="/style.css">-->
 <style>
-body {
+
+@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+
+body, html {
+  box-sizing: border-box;
+  margin: 0;
+  height: 100%;
+
+  /* you see this if you try to scroll out of the module list */
+  background-color: hsl(184, 49%, 7%);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.5em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+* { box-sizing: inherit; }
+
+label {
   /* http://caniuse.com/#feat=user-select-none */
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -9,10 +30,13 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
-h1 {
-  font-family: monospace;
+
+a {
+  color: pink;
 }
 
 </style>
-<body></body>
+<body>
+
+</body>
 <script src='/bundle.js'></script>
