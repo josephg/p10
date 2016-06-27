@@ -157,13 +157,20 @@ const TRAITS = {
 };
 
 const NAMES = {
-  m: ['Joseph', 'Emre', 'Brendan', 'Jim', 'Leigh', 'Aziz', 'Noxolo', 'Brad', 'Charlie', 'Florian', 'Richard', 'Yug', 'Malcolm', 'Carlo', 'Ben', 'Liam', 'Seiji', 'Bayani', 'Cho', 'Haruo', 'Ringo', 'Shinichi', 'Tor', 'Ron', 'Sasha', 'Nikolai', 'Timo', 'Eirik', 'Ragnar', 'Jules', 'Lorenzo', 'Riccardo', 'Matthew', 'Finn', 'Luca', 'Mateo', 'Rami', 'Ashley', 'Joshua', 'John', 'Lars', 'David', 'Jason', 'Alexander', 'Tasi', 'Jayanta', 'Tony', 'Karel', 'Krister', 'Dean', 'Trent', 'Dion', 'Nathan', 'Joshua', 'Gregory', 'James', 'Morgan', 'Rajan', 'Mack', 'Shay', 'Tyshan', 'Katz', 'Kostja', 'Milan', 'Owen', 'Kinoko', 'Faraz', 'Vladimir', 'Renee', 'Itamar'],
+  m: ['Joseph', 'Emre', 'Brendan', 'Jim', 'Leigh', 'Aziz', 'Noxolo', 'Brad', 'Charlie', 'Florian', 'Richard', 'Yug', 'Malcolm', 'Carlo', 'Ben', 'Liam', 'Seiji', 'Bayani', 'Cho', 'Haruo', 'Ringo', 'Shinichi', 'Tor', 'Ron', 'Sasha', 'Nikolai', 'Timo', 'Eirik', 'Ragnar', 'Jules', 'Lorenzo', 'Riccardo', 'Matthew', 'Finn', 'Luca', 'Mateo', 'Rami', 'Ashley', 'John', 'Lars', 'David', 'Jason', 'Alexander', 'Tasi', 'Jayanta', 'Tony', 'Karel', 'Krister', 'Dean', 'Trent', 'Dion', 'Nathan', 'Joshua', 'Gregory', 'James', 'Morgan', 'Rajan', 'Mack', 'Shay', 'Tyshan', 'Katz', 'Kostja', 'Milan', 'Owen', 'Kinoko', 'Faraz', 'Vladimir', 'Renee', 'Itamar'],
   f: ['Zoe', 'Jennifer', 'Dina', 'Jordan', 'Leigh', 'Bei', 'Kamina', 'Meya', 'Emilia', 'Siobhan', 'Claire', 'Sally', 'Lauren', 'Della', 'Arati', 'Stephanie', 'Haruko', 'Li', 'Cho', 'Nanako', 'Thanh', 'Alyosha', 'Inna', 'Svetlana', 'Sasha', 'Eleonor', 'Hannah', 'Lea', 'Alice', 'Sophia', 'Lucy', 'Maria', 'Rae', 'Jenna', 'Valeria', 'Fabiana', 'Tara', 'Ashley', 'Lois', 'Elissa', 'Leena', 'Tegan', 'Elizabeth', 'Janie', 'Reina', 'Samantha', 'Hedwig', 'Izzy', 'Anna', 'Maret', 'Janet', 'Sonia', 'Maike', 'Riahne', 'Kate', 'Wren', 'Jyllian', 'Rebecca', 'Fiona', 'Marika', 'Nat', 'Naomi', 'Giselle', 'Maize', 'Louise', 'Mahli', 'Chiharu', 'Justine', 'Renee', 'Sonnalee']
 }
 
 const checkUnique = list => {
   const set = new Set(list);
-  if (set.size !== list.length) throw Error('List has duplicate items');
+  if (set.size !== list.length) {
+    // Duplicate entries. Figure out which one(s).
+    set.clear();
+    list.forEach(elem => {
+      if (set.has(elem)) console.error('Duplicate entry', elem);
+      set.add(elem);
+    });
+  }
 }
 
 checkUnique(NAMES.m);
